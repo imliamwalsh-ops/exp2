@@ -88,7 +88,7 @@ const xpProgress = Math.floor(
 );
 
 const recentXP = Array.isArray(profile.activities)
-  ? profile.activities.slice(0, 4).map((activity) => ({
+  ? (profile.activities ?? []).slice(0, 4).map((activity) => ({
       activity: activity.activityName,
       xp: activity.xpEarned,
       type: activity.activityType,

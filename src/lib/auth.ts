@@ -238,10 +238,22 @@ const applyAchievementUpdates = (
     "iron-will": profile.stats.strength,
   };
 };
+const safeAchievements = (ach: any) => {
+  return {
+    unlocked: Array.isArray(ach?.unlocked) ? ach.unlocked : [],
+    progress: ach?.progress ?? {},
+  };
+};
 
+const safeArray = <T,>(arr: any): T[] => {
+  return Array.isArray(arr) ? arr : [];
+};
 const mapProfile = (data: any): UserProfile => {
-  const achievements = data?.achievements;
-
+  const achievements = safeAchievements(data?.achievements);
+  
+if (!data) {
+  throw new Error("mapProfile received null data");
+}
   return {
     id: data.id,
     email: data.email,
@@ -253,10 +265,8 @@ const mapProfile = (data: any): UserProfile => {
 
     level: data.level ?? 1,
     totalXP: data.total_xp ?? 0,
-    currentLevelXP:
-      data.current_level_xp ?? 0,
-    xpToNextLevel:
-      data.xp_to_next_level ?? 1000,
+    currentLevelXP: data.current_level_xp ?? 0,
+    xpToNextLevel: data.xp_to_next_level ?? 1000,
 
     stats: {
       strength: data.strength ?? 0,
@@ -265,28 +275,14 @@ const mapProfile = (data: any): UserProfile => {
     },
 
     streak: data.streak ?? 0,
+    totalActivities: data.total_activities ?? 0,
 
-    totalActivities:
-      data.total_activities ?? 0,
+    activitiesByType: data.activities_by_type ?? {},
 
-    activitiesByType:
-      data.activities_by_type ?? {},
+    achievements,
 
-    achievements: {
-      unlocked:
-        Array.isArray(
-          achievements?.unlocked
-        )
-          ? achievements.unlocked
-          : [],
-
-      progress:
-        achievements?.progress ?? {},
-    },
-
-    activities: Array.isArray(data.activities)
-  ? data.activities
-  : [],
+    // 🔥 THIS fixes your crash
+    activities: safeArray<Activity>(data.activities),
   };
 };
 
