@@ -32,7 +32,7 @@ export function HomeScreen() {
           b.progress - a.progress
       )
       .slice(0, 4)
-      .map((item) => {
+      .map((item: any) => {
         if (item.key === "fire-starter") {
           return {
             ...item,
@@ -102,29 +102,17 @@ const recentXP = Array.isArray(profile.activities)
     }))
   : [];
 
-const activeMissions = [
-    {
-      title: "Complete 5 Strength Logs",
-      progress: profile.activitiesByType.strength || 0,
-      total: 5,
-      xp: 500,
-    },
-    {
-      title: "Earn 1000 XP",
-      progress: profile.totalXP,
-      total: 1000,
-      xp: 500,
-    },
-    {
-      title: "Build a 7 Day Streak",
-      progress: profile.streak,
-      total: 7,
-      xp: 400,
-    },
-  ];
+const activeMissions =
+  profile.dailyQuests.map((quest) => ({
+    title: quest.title,
+    progress: quest.completed ? 1 : 0,
+    total: 1,
+    xp: quest.xpReward,
+    completed: quest.completed,
+  }));
 
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0a0118] via-[#1a0a2e] to-[#0a0118] pb-28">
+return (
+  <div className="min-h-screen bg-gradient-to-b from-[#0a0118] via-[#1a0a2e] to-[#0a0118] pb-28">
       <div className="fixed inset-0 bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)] bg-[size:30px_30px] opacity-50" />
       <div className="fixed top-20 right-10 w-64 h-64 bg-purple-600/10 rounded-full blur-[100px] animate-pulse" />
       <div className="fixed bottom-40 left-10 w-64 h-64 bg-cyan-600/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: "1.5s" }} />

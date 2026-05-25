@@ -19,7 +19,7 @@ export function BottomNav() {
       
       <div className="relative mx-4 mb-4 bg-gradient-to-b from-purple-950/90 to-black/90 backdrop-blur-xl border border-purple-500/30 rounded-2xl shadow-[0_0_30px_rgba(139,92,246,0.3)]">
         <div className="flex justify-around items-center px-2 py-3">
-          {navItems.map((item) => {
+          {navItems.map((item: any) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
             

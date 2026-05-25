@@ -96,7 +96,7 @@ export function ProfileScreen() {
           <button
   onClick={async () => {
     await logout();
-    navigate("/login");
+    navigate("/");
   }}
   className="absolute top-6 right-4 w-10 h-10 rounded-xl bg-purple-950/40 backdrop-blur-sm border border-purple-500/20 flex items-center justify-center text-purple-300 hover:text-purple-200 hover:border-purple-500/40 transition-colors"
 >
