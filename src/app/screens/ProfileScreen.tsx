@@ -1,9 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
+
 import { BottomNav } from "../components/BottomNav";
+
+import {
+  getAchievementsForProfile,
+  loadCurrentUser,
+  logout,
+} from "../../lib/auth";
+
 import { Progress } from "../components/ui/progress";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
+
 import {
   User,
   TrendingUp,
@@ -13,22 +22,23 @@ import {
   Heart,
   Sparkles,
   Crown,
-  Shield,
   Flame,
   Star,
-  Trophy,
-  Target,
   Gamepad2,
   Music,
   Palette,
   Camera,
   Settings,
+  LogOut,
 } from "lucide-react";
-import { getAchievementsForProfile, loadCurrentUser } from "../../lib/auth";
+
 import type { UserProfile } from "../../lib/types";
 
 export function ProfileScreen() {
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [profile, setProfile] =
+    useState<UserProfile | null>(null);
+
+  const navigate = useNavigate();
 
  useEffect(() => {
   const loadUser = async () => {
@@ -83,9 +93,15 @@ export function ProfileScreen() {
 
       <div className="relative z-10">
         <div className="relative px-4 pt-6 pb-20">
-          <button className="absolute top-6 right-4 w-10 h-10 rounded-xl bg-purple-950/40 backdrop-blur-sm border border-purple-500/20 flex items-center justify-center text-purple-300 hover:text-purple-200 hover:border-purple-500/40 transition-colors">
-            <Settings className="w-5 h-5" />
-          </button>
+          <button
+  onClick={async () => {
+    await logout();
+    navigate("/login");
+  }}
+  className="absolute top-6 right-4 w-10 h-10 rounded-xl bg-purple-950/40 backdrop-blur-sm border border-purple-500/20 flex items-center justify-center text-purple-300 hover:text-purple-200 hover:border-purple-500/40 transition-colors"
+>
+  <LogOut className="w-5 h-5" />
+</button>
 
           <div className="relative mt-12">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-2xl blur opacity-30" />
